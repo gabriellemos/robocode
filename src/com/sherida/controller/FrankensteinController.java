@@ -3,25 +3,31 @@ package com.sherida.controller;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.sherida.EnemyBot;
 import com.sherida.MyUtils;
 import com.sherida.movimentation.MinimumRiskMovement;
 
 import robocode.AdvancedRobot;
+import robocode.DeathEvent;
 import robocode.HitByBulletEvent;
 import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
 import robocode.RobotDeathEvent;
+import robocode.RoundEndedEvent;
 import robocode.ScannedRobotEvent;
 
 public class FrankensteinController implements IRobotController {
 
+	private boolean flag;
 	private EnemyBot target;
 	private AdvancedRobot robot;
 	private Point2D.Double myPos;
 	private Map<String, EnemyBot> enemies;
 	
+	private Timer timer;
 	private MinimumRiskMovement mrMoviment;
 	
 	@Override
@@ -30,6 +36,9 @@ public class FrankensteinController implements IRobotController {
 		this.enemies = new HashMap<>();
 		this.target = new EnemyBot();
 		this.robot = robot;
+		this.flag = false;
+		
+		this.timer = new Timer();
 	}
 
 	@Override
@@ -110,10 +119,34 @@ public class FrankensteinController implements IRobotController {
 	public void handleOnHit(HitRobotEvent evt) {
 		EnemyBot enemyBot = (EnemyBot) enemies.get(evt.getName());
 		if (enemyBot != null) target = enemyBot;
+//		robot.back(50);
+//		
+//		if (!flag) {
+//			flag = true;
+//			timer.schedule(new TimerTask() {
+//				@Override
+//				public void run() {
+//					mrMoviment.generateNewTargetLocation();
+//					flag = false;
+//				}
+//			}, 500);
+//		}
 	}
 
 	@Override
 	public void handleOnHit(HitWallEvent event) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void handleOnDeath(DeathEvent evt) {
+		timer.cancel();
+		timer.purge();
+	}
+
+	@Override
+	public void handleOnRoundEnded(RoundEndedEvent evt) {
+		timer.cancel();
+		timer.purge();
 	}
 }

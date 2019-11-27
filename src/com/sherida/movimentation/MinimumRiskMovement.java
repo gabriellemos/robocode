@@ -53,7 +53,7 @@ public class MinimumRiskMovement {
 		me.setMaxVelocity(Math.abs(angle) > 1 ? 0 : 8d);
 	}
 	
-	private void generateNewTargetLocation() {
+	public void generateNewTargetLocation() {
 		Point2D.Double destination = null;
 		double addLast = 1 - Math.rint(Math.pow(Math.random(), me.getOthers()));
 		for (int i = 0; i < 200; i++) {

@@ -1,10 +1,12 @@
 package com.sherida.controller;
 
 import robocode.AdvancedRobot;
+import robocode.DeathEvent;
 import robocode.HitByBulletEvent;
 import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
 import robocode.RobotDeathEvent;
+import robocode.RoundEndedEvent;
 import robocode.ScannedRobotEvent;
 
 public class MonteController implements IRobotController {
@@ -81,5 +83,15 @@ public class MonteController implements IRobotController {
 	@Override
 	public void handleOnHit(HitWallEvent evt) {
 		moveDirection *= -1;
+	}
+
+	@Override
+	public void handleOnDeath(DeathEvent evnt) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void handleOnRoundEnded(RoundEndedEvent evt) {
+		// TODO Auto-generated method stub
 	}
 }

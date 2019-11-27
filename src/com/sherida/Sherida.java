@@ -7,10 +7,12 @@ import com.sherida.controller.IRobotController;
 import com.sherida.controller.MonteController;
 
 import robocode.AdvancedRobot;
+import robocode.DeathEvent;
 import robocode.HitByBulletEvent;
 import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
 import robocode.RobotDeathEvent;
+import robocode.RoundEndedEvent;
 import robocode.ScannedRobotEvent;
 
 public class Sherida extends AdvancedRobot {
@@ -29,6 +31,7 @@ public class Sherida extends AdvancedRobot {
 		
 		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
+		activeController = frankenstein;
 		
 		while(true) {
 			if (getOthers() == 1 && activeController instanceof FrankensteinController)
@@ -65,4 +68,17 @@ public class Sherida extends AdvancedRobot {
 	public void onHitWall(HitWallEvent evt) {	
 		activeController.handleOnHit(evt);
 	}
+	
+	@Override
+	public void onDeath(DeathEvent evt) {
+		frankenstein.handleOnDeath(evt);
+		monte.handleOnDeath(evt);
+	}
+	
+	@Override
+	public void onRoundEnded(RoundEndedEvent evt) {
+		frankenstein.handleOnRoundEnded(evt);
+		monte.handleOnRoundEnded(evt);
+	}
+
 }
